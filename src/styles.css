@@ -12,6 +12,7 @@ main {
 
 .controls {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
 }
@@ -20,6 +21,10 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+}
+
+.clear-search {
+  align-self: flex-end;
 }
 
 .book-list {
