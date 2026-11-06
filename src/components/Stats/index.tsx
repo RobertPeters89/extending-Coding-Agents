@@ -1,5 +1,5 @@
 import type { Book } from "../../types";
-import { averageRating, countRead } from "../../books";
+import { averageRating, countRead, favoriteGenre } from "../../books";
 
 type StatsProps = {
   books: Book[];
@@ -10,7 +10,7 @@ export default function Stats({ books }: StatsProps) {
   return (
     <p className="stats">
       {countRead(books)} of {books.length} read · Average rating:{" "}
-      {average ?? "–"}
+      {average ?? "–"} · Favorite genre: {favoriteGenre(books) ?? "–"}
     </p>
   );
 }
