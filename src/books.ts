@@ -1,4 +1,4 @@
-import type { Book, GenreFilter } from "./types";
+import type { Book, Genre, GenreFilter } from "./types";
 
 type Filter = {
   genre: GenreFilter;
@@ -26,6 +26,31 @@ export function removeBook(books: Book[], id: string): Book[] {
 
 export function countRead(books: Book[]): number {
   return books.filter((book) => book.isRead).length;
+}
+
+/**
+ * The genre with the most read books. On a tie the alphabetically first genre
+ * wins. `null` if no book is read.
+ */
+export function favoriteGenre(books: Book[]): Genre | null {
+  const counts = new Map<Genre, number>();
+  for (const book of books) {
+    if (book.isRead) {
+      counts.set(book.genre, (counts.get(book.genre) ?? 0) + 1);
+    }
+  }
+  let favorite: Genre | null = null;
+  let bestCount = 0;
+  for (const [genre, count] of counts) {
+    if (
+      count > bestCount ||
+      (count === bestCount && favorite !== null && genre < favorite)
+    ) {
+      favorite = genre;
+      bestCount = count;
+    }
+  }
+  return favorite;
 }
 
 /** Average of all rated books, rounded to one decimal. `null` if no book is rated. */
