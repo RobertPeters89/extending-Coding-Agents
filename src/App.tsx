@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { filterBooks, removeBook, toggleRead } from "./books";
 import BookList from "./components/BookList";
 import Stats from "./components/Stats";
@@ -9,6 +9,7 @@ export default function App() {
   const [books, setBooks] = useState<Book[]>(initialBooks);
   const [genre, setGenre] = useState<GenreFilter>("all");
   const [query, setQuery] = useState("");
+  const searchInput = useRef<HTMLInputElement>(null);
 
   const visibleBooks = filterBooks(books, { genre, query });
 
@@ -27,11 +28,23 @@ export default function App() {
         <label>
           Search
           <input
+            ref={searchInput}
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
         </label>
+        <button
+          type="button"
+          className="clear-search"
+          onClick={() => {
+            setQuery("");
+            searchInput.current?.focus();
+          }}
+          disabled={query === ""}
+        >
+          Clear search
+        </button>
         <label>
           Genre
           <select
